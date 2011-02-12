@@ -25,7 +25,12 @@ no strict 'refs';
 for my $name (@query_names) {
     *{ "add_$name" } = sub {
         my ($self, $value) = @_;
-        push @{ $self->{$name} }, $value;
+        $self->{$name} = [] if ref $self->{$name} ne 'ARRAY';
+        if (ref $value eq 'ARRAY') {
+            push @{ $self->{$name} }, @$value;
+        } else {
+            push @{ $self->{$name} }, $value;
+        }
         return $self;
     };
 }
