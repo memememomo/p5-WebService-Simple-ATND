@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use utf8;
 use base qw(WebService::Simple);
+use WebService::Simple::ATND::Query;
 use WebService::Simple::ATND::Response;
 
 our $VERSION = '0.01';
@@ -27,6 +28,16 @@ sub get {
     } else {
         return undef;
     }
+}
+
+sub query_events {
+    my $self = shift;
+    return WebService::Simple::ATND::Query->create_events(@_);
+}
+
+sub query_users {
+    my $self = shift;
+    return WebService::Simple::ATND::Query->create_users(@_);
 }
 
 1;

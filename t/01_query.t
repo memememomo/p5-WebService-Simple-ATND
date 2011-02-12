@@ -3,7 +3,6 @@ use utf8;
 use Test::More;
 use Time::Piece;
 use WebService::Simple::ATND;
-use WebService::Simple::ATND::Query;
 use Data::Dumper;
 
 my $atnd = WebService::Simple::ATND->new;
@@ -11,7 +10,7 @@ my $atnd = WebService::Simple::ATND->new;
 
 {
    my $test_date = Time::Piece->strptime('2011-01-01 00:00:00', '%Y-%m-%d %H:%M:%S');
-   my $query = WebService::Simple::ATND::Query->create_events();
+   my $query = WebService::Simple::ATND->query_events();
    $query->add_ym($test_date->strftime('%Y%m'));
 
    my $res = $atnd->get($query);
@@ -32,7 +31,7 @@ my $atnd = WebService::Simple::ATND->new;
 
 
 {
-   my $query = WebService::Simple::ATND::Query->create_events();
+   my $query = WebService::Simple::ATND->query_events();
    $query->add_keyword('perl');
    $query->add_keyword('php');
 
@@ -52,7 +51,7 @@ my $atnd = WebService::Simple::ATND->new;
 }
 
 {
-    my $query = WebService::Simple::ATND::Query->create_events();
+    my $query = WebService::Simple::ATND->query_events();
     $query->add_event_id('1');
 
     my $res = $atnd->get($query);
@@ -61,7 +60,7 @@ my $atnd = WebService::Simple::ATND->new;
 }
 
 {
-    my $query = WebService::Simple::ATND::Query->create_users();
+    my $query = WebService::Simple::ATND->query_users();
     $query->add_event_id('1');
 
     my $res = $atnd->get($query);
