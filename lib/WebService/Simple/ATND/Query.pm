@@ -15,6 +15,7 @@ sub new {
 
     $args{start} ||= 1;
     $args{count} ||= 10;
+    $args{format}  = 'json';
 
     bless \%args, $class;
 }
@@ -29,6 +30,8 @@ sub create_users {
     return WebService::Simple::ATND::Query::Users->new(@_);
 }
 
+sub api_base { return '' }
+
 sub query_names { return []; }
 
 sub as_hashref {
@@ -42,8 +45,14 @@ sub as_hashref {
     }
     $hash{start} = $self->{start};
     $hash{count} = $self->{count};
+    $hash{format} = $self->{format};
 
     return \%hash;
+}
+
+sub as_args {
+    my ($self) = @_;
+    return ($self->api_base(), $self->as_hashref());
 }
 
 

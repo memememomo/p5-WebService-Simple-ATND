@@ -9,25 +9,15 @@ use WebService::Simple::ATND::Response;
 our $VERSION = '0.01';
 
 __PACKAGE__->config(
-    base_url => "http://api.atnd.org/",
+    base_url        => "http://api.atnd.org/",
+    response_parser => 'JSON',
 );
 
 sub get {
     my ($self, $query) = @_;
-
-    $query->{format} = 'xml';
-
-    if ( ref $query eq 'WebService::Simple::ATND::Query::Events' ) {
-        return WebService::Simple::ATND::Response->parse_events(
-            $self->SUPER::get("events/", $query->as_hashref)
-        );
-    } elsif ( ref $query eq 'WebService::Simple::ATND::Query::Users' ) {
-        return WebService::Simple::ATND::Response->parse_users(
-            $self->SUPER::get("events/users/", $query->as_hashref)
-        );
-    } else {
-        return undef;
-    }
+    return WebService::Simple::ATND::Response->parse_response(
+	$self->SUPER::get($query->as_args),
+    );
 }
 
 sub query_events {

@@ -19,6 +19,8 @@ my @query_names = qw(
  owner_twitter_id
 );
 
+sub api_base { return "events/" }
+
 sub query_names { return \@query_names; }
 
 no strict 'refs';

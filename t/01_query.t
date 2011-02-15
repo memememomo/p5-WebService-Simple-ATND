@@ -84,6 +84,7 @@ my $atnd = WebService::Simple::ATND->new;
     my $res = $atnd->get($query);
 
     like($res->events->[0]->{title}, qr/ATNDデモイベント/, "users_event_id");
+    ok(ref $res->events->[0]->{users} eq 'ARRAY');
 }
 
 done_testing();

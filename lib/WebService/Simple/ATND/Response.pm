@@ -1,8 +1,6 @@
 package WebService::Simple::ATND::Response;
 use strict;
 use warnings;
-use WebService::Simple::ATND::Response::Events;
-use WebService::Simple::ATND::Response::Users;
 our $VERSION = '0.01';
 
 
@@ -13,16 +11,10 @@ sub new {
     return bless { %args }, $class;
 }
 
-sub parse_events {
+sub parse_response {
     my ($class, $response) = @_;
-    return WebService::Simple::ATND::Response::Events->new($response);
+    return $class->new($response->parse_response);
 }
-
-sub parse_users {
-    my ($class, $response) = @_;
-    return WebService::Simple::ATND::Response::Users->new($response);
-}
-
 
 sub results_returned {
     my ($self) = @_;
@@ -38,19 +30,6 @@ sub events {
     my ($self) = @_;
     return $self->{events};
 }
-
-sub _init_response {
-    my ($hash) = @_;
-
-    my %res = (
-	results_returned => $hash->{results_returned}->{content},
-	results_available => $hash->{results_available}->{content},
-	events => [],
-    );
-
-    return \%res;
-}
-
 
 1;
 __END__
