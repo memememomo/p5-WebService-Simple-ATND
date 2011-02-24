@@ -1,0 +1,88 @@
+
+=head1 NAME
+
+WebService::Simple::ATND - ATND API Wrapper Class
+
+=head1 SYNOPSIS
+
+  use WebService::Simple::ATND;
+
+  ### users API ###
+  my $query = WebService::Simple::ATND->query_users( %options );
+
+  ### events API ###
+  my $query = WebService::Simple::ATND->query_events( %options );
+
+  ### Set Query ###
+  $query->add_keyword('perl');
+  $query->add_keyword_or(['perl', 'ruby']);
+  $query->add_ym('201103');
+
+  ### Access API ###
+  my $atnd = WebService::Simple::ATND->new;
+  my $res = $atnd->get( $query );
+
+  ### Fetch Infomation
+
+  $res->results_returned;
+  $res->results_start;
+
+  my $events = $res->events;
+  for my $event ( @$events ) {
+    $event->{event_id};
+    $event->{title};
+    $event->{description};
+  }
+
+=head1 NOTE
+
+THIS IS ALPHA QUALITY CODE!
+
+If you found bug, please report by e-mail or twitter(@memememomo).
+
+This module inherits WebService::Simple.
+
+=head1 INSTALL
+
+  $ git clone git@github.com:memememomo/p5-WebService-Simple-ATND.git
+  $ cpanm ./WebService-Simple-ATND
+
+=head1 METHODS
+
+=head2 new()
+
+Create an instance of WebService::Simple::ATND
+
+=head2 query_events( %options ) / query_users( %options )
+
+Create query builder. There are two types.
+
+%params are options. And, following are appended.
+
+- count : Number of event data in response. Default is 10.
+
+- start : for pager. Default is 1.
+
+These options are not required.
+
+=head2 get( $query )
+
+Send a http-request to ATND-API.
+
+$query is a query builder created by query_events/query_users methods.
+
+=head1 AUTHOR
+
+memememomo E<lt>memememomo@gmail.comE<gt>
+
+=head1 SEE ALSO
+
+WebService::Simple
+
+http://api.atnd.org/
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
+=cut
